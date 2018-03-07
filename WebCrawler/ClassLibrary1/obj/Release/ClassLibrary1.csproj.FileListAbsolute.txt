@@ -1,0 +1,10 @@
+C:\Users\Liam\source\repos\WebCrawler\ClassLibrary1\bin\Release\ClassLibrary1.dll
+C:\Users\Liam\source\repos\WebCrawler\ClassLibrary1\bin\Release\ClassLibrary1.pdb
+C:\Users\Liam\source\repos\WebCrawler\ClassLibrary1\bin\Release\Microsoft.WindowsAzure.Storage.dll
+C:\Users\Liam\source\repos\WebCrawler\ClassLibrary1\bin\Release\Microsoft.Data.Edm.dll
+C:\Users\Liam\source\repos\WebCrawler\ClassLibrary1\bin\Release\Microsoft.Data.Services.Client.dll
+C:\Users\Liam\source\repos\WebCrawler\ClassLibrary1\bin\Release\Microsoft.Data.OData.dll
+C:\Users\Liam\source\repos\WebCrawler\ClassLibrary1\obj\Release\ClassLibrary1.csprojResolveAssemblyReference.cache
+C:\Users\Liam\source\repos\WebCrawler\ClassLibrary1\obj\Release\ClassLibrary1.csproj.CoreCompileInputs.cache
+C:\Users\Liam\source\repos\WebCrawler\ClassLibrary1\obj\Release\ClassLibrary1.dll
+C:\Users\Liam\source\repos\WebCrawler\ClassLibrary1\obj\Release\ClassLibrary1.pdb

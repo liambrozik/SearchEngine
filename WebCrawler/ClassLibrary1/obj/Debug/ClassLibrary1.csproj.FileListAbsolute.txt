@@ -1,0 +1,10 @@
+c:\users\liam\source\repos\WebCrawler\ClassLibrary1\obj\Debug\ClassLibrary1.csproj.CoreCompileInputs.cache
+c:\users\liam\source\repos\WebCrawler\ClassLibrary1\bin\Debug\ClassLibrary1.dll
+c:\users\liam\source\repos\WebCrawler\ClassLibrary1\bin\Debug\ClassLibrary1.pdb
+c:\users\liam\source\repos\WebCrawler\ClassLibrary1\bin\Debug\Microsoft.WindowsAzure.Storage.dll
+c:\users\liam\source\repos\WebCrawler\ClassLibrary1\bin\Debug\Microsoft.Data.Edm.dll
+c:\users\liam\source\repos\WebCrawler\ClassLibrary1\bin\Debug\Microsoft.Data.Services.Client.dll
+c:\users\liam\source\repos\WebCrawler\ClassLibrary1\bin\Debug\Microsoft.Data.OData.dll
+c:\users\liam\source\repos\WebCrawler\ClassLibrary1\obj\Debug\ClassLibrary1.dll
+c:\users\liam\source\repos\WebCrawler\ClassLibrary1\obj\Debug\ClassLibrary1.pdb
+C:\Users\Liam\source\repos\WebCrawler\ClassLibrary1\obj\Debug\ClassLibrary1.csprojResolveAssemblyReference.cache

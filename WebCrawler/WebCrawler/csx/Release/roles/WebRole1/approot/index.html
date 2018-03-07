@@ -1,0 +1,365 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Crawler Dashboard</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous" />
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="#"><h3><span class="thin">crawl</span>Dashboard</h3></a>
+        </div>
+        <div id="search-open"><a href="#">Search</a></div>
+        <div id="settings-open"><a href="#">Settings</a></div>
+    </header>
+    <div id="settings" class="settings">
+        <div class="settings-header">
+            <center>Settings</center>
+            <div id="settings-close">X</div>
+        </div>
+        <div class="setting padabove" id="refresh-rate">
+            <center>
+                <label for="refresh-rate-input">Refresh Rate (sec)</label>
+                <input type="number" class="form-control refresh-rate-input" id="refresh-rate-input" placeholder="5 (default)" />
+            </center>
+        </div>
+        <div class="setting padabove" id="theme">
+            <center>
+                <p>Theme</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <form id="theme-form">
+                    <label class="btn btn-light active">
+                        <input type="radio" name="options" id="option-light" autocomplete="off" checked> Light
+                    </label>
+                    <label class="btn btn-dark">
+                        <input type="radio" name="options" id="option-dark" autocomplete="off"> Dark
+                    </label>
+                    </form>
+                </div>
+            </center>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Search Mod-->
+        <div id="search-bg" class="search-bg-animation-out search-bg"></div>
+        <div class="row">
+            <div  class="col-lg-12">
+                <div id="search-mod" class="search-mod-animation-out">
+                    <center id="title-search-center">
+                    <div id="search-close">Exit Search</div>
+                        <input type="text" id="title-search" placeholder="Search Page Titles by URL" /> <button id="title-search-submit">Find</button>
+                        <div id="search-result"><p id="search-result-title"></p><p id="search-result-date"></p></div>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <!-- Crawler Status Module -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="mod" id="crawler-state">
+                    <div class="mod-header">
+                        <div class="center">
+                            <h2>Crawlers</h2>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#NewCrawlerModal">New Crawler</button>
+                        </div>
+                    </div>
+                    <div class="mod-body">
+                        <table class="table" id="crawler-table-list">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Root URL</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="crawler-row">
+                                    <th scope="row" id="crawler-name">CrAwLeR1</th>
+                                    <td id="crawler-status">Stopped</td>
+                                    <td id="crawler-link"><a href="https://www.cnn.com/robots.txt">https://www.cnn.com/robots.txt</a></td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Select
+                                            </button>
+                                            <div class="dropdown-menu">
+
+                                                <a class="dropdown-item" href="#">Rename</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a id="stop-crawler" class="dropdown-item red" href="#">Stop</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="center">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Progress Module -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="mod" id="urls">
+                    <div class="mod-header">
+                        <h2>Progress</h2>
+                    </div>
+                    <div id="lastten-mod" class="mod-body">
+                        <h6><b>Last 10 URLs</b></h6>
+                        <table id="lastten" class="table">
+                            <tbody id="lastten-body">
+                                <tr>
+                                    <td id="link0"></td>
+                                    <td id="link1"></td>
+                                </tr>
+                                <tr>
+                                    <td id="link2"></td>
+                                    <td id="link3"></td>
+                                </tr>
+                                <tr>
+                                    <td id="link4"></td>
+                                    <td id="link5"></td>
+                                </tr>
+                                <tr>
+                                    <td id="link6"></td>
+                                    <td id="link7"></td>
+                                </tr>
+                                <tr>
+                                    <td id="link8"></td>
+                                    <td id="link9"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- CPU Performance Counter Module -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mod counter" id="counter-cpu">
+                    <div class="mod-header">
+                        <h2>CPU: <span id="cpu-body"></span></h2>
+                    </div>
+                    <div class="mod-body">
+
+                        <canvas id="line-chart1"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- RAM Performance Counter Module -->
+            <div class="col-md-6">
+                <div class="mod counter" id="counter-ram">
+                    <div class="mod-header">
+                        <h2>Memory: <span id="ram-body"></span></h2>
+                    </div>
+                    <div class="mod-body">
+                        <canvas id="line-chart2"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Table Size Module -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mod" id="size-table">
+                    <div class="mod-header">
+                        <h2>Table Size</h2>
+                    </div>
+                    <div class="mod-body">
+                        <div id="total-links"></div>
+                        <div class="center">
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#ClearTableModal">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Queue Size Module -->
+            <div class="col-md-6">
+                <div class="mod" id="size-queue">
+                    <div class="mod-header">
+                        <h2>Queue Size</h2>
+                    </div>
+                    <div class="mod-body">
+                        <div id="queue-links"></div>
+                        <div class="center">
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#ClearQueueModal">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Error Log Module -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="mod" id="errors">
+                    <div class="mod-header">
+                        <h2>Errors</h2>
+                    </div>
+                    <div class="mod-body erro">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Error</th>
+                                    <th scope="col">Link</th>
+                                </tr>
+                            </thead>
+                            <tbody id="error-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <center><button id="total-reset" type="button" class="btn  btn-lg btn-block btn-danger" data-toggle="modal" data-target="#ResetEverythingModal">Total Reset</button></center>
+    </div>
+            <!--
+        <footer>
+            <div class="container">
+                <p>Liam Brozik</p>
+                <p>INFO344 2018</p>
+                <p><a href="3">GitHub</a></p>
+            </div>
+        </footer>
+        -->
+            <!-- Pop Up Boxes (Modals)-->
+            <!-- New Crawler Modal -->
+            <div class="modal fade" id="NewCrawlerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">New Crawler</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="new-crawler-name"><b>Crawler Name</b></label>
+                            <input type="text" class="form-control" id="new-crawler-name" value="Crawler1">
+                            <label class="padabove" for="new-crawler-url"><b>Starting URL</b><span class="red">*</span></label>
+                            <input type="text" class="form-control" id="new-crawler-url" placeholder="http://example.com/robots.txt">
+                            <div class="padabove"><b class="red">Warning:</b> Creating a new crawler will clear the current link queue. <p>Are you sure you want to continue?</p></div>
+                            <label class="padabove" for="CreateCrawlerPassword"><b>Enter Password</b><span class="red">*</span></label>
+                            <input type="password" class="form-control" id="CreateCrawlerPassword">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button id="CreateNewCrawler" type="button" data-dismiss="modal" class="btn btn-success">Create</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reset Everything Modal -->
+            <div class="modal fade" id="ResetEverythingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle"><span class="red">WARNING!</span></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Proceeding with this action will:
+                            <ul>
+                                <li>Clear all Queues and Tables</li>
+                                <li>Stop and Delete all crawlers</li>
+                                <li>Clear all other data</li>
+                            </ul>
+                            <b>Are you sure?</b>
+                            <label class="padabove" for="ClearEverythingPassword"><b>Enter Password</b><span class="red">*</span></label>
+                            <input type="password" class="form-control" id="ClearEverythingPassword">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" id="ClearEverythingConfirm" class="btn btn-danger" data-dismiss="modal">Reset Everything</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clear Table Modal -->
+            <div class="modal fade" id="ClearTableModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle"><span class="red">WARNING!</span></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Proceeding with this action will:
+                            <ul>
+                                <li>Clear all data from the URL Table</li>
+                            </ul>
+                            <b>Are you sure?</b>
+                            <label class="padabove" for="ClearTablePassword"><b>Enter Password</b><span class="red">*</span></label>
+                            <input type="password" class="form-control" id="ClearTablePassword">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button id="ClearTableConfirm" type="button" class="btn btn-danger">Clear Table</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clear Queue Modal -->
+            <div class="modal fade" id="ClearQueueModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle"><span class="red">WARNING!</span></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Proceeding with this action will:
+                            <ul>
+                                <li>Clear all data from the URL Queue</li>
+                            </ul>
+                            <b>Are you sure?</b>
+                            <label class="padabove" for="ClearQueuePassword"><b>Enter Password</b><span class="red">*</span></label>
+                            <input type="password" class="form-control" id="ClearQueuePassword">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button id="ClearQueueConfirm" data-dismiss="modal" type="button" class="btn btn-danger">Clear Queue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Badge -->
+            <div id="badge" class="badge">
+                <center>
+                    <div id="badge-message">
+                    </div>
+                </center>
+            </div>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"
+                    integrity="sha384-feJI7QwhOS+hwpX2zkaeJQjeiwlhOP+SdQDqhgvvo1DsjtiSQByFdThsxO669S2D"
+                    crossorigin="anonymous"></script>
+
+            <script src="script.js"></script>
+</body>
+</html>

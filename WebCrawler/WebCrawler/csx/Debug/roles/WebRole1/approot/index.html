@@ -1,0 +1,799 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous" />
+    <script src="https://use.fontawesome.com/0cae086453.js"></script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .result {
+            position: relative;
+            background-color: white;
+            padding: 0px;
+            border-radius: 0px;
+            margin: 0px;
+            width: 100%;
+            max-height: 175px;
+            text-align: left;
+        }
+
+        .wiki {
+            min-height: 250px;
+        }
+
+        .imgcontainer {
+            position: relative;
+            width: 95%;
+            background-color: white;
+            display: inline-block;
+            padding: 10px;
+            margin-left: 2.5%;
+            text-align: left;
+            white-space: nowrap;
+            word-wrap: break-word;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .wrap {
+            white-space: initial;
+            word-wrap: initial;
+        }
+
+        .related {
+            display: inline-block;
+            height: 40px;
+            padding: 10px;
+            margin-top: -10px;
+        }
+
+        .suggestions {
+            margin-top: 20px;
+            float: right;
+            width: 300px;
+            display: inline-block;
+            background-color: white;
+        }
+
+            .suggestions p {
+                margin-top: -10px;
+            }
+
+        .title {
+            font-size: 20px;
+            text-align: left;
+            line-height: 1;
+            display: inline-block;
+        }
+
+        #tophit {
+            display: inline-block;
+            position: relative;
+            vertical-align: top;
+            height: 18px;
+            padding: 2px;
+            bottom: -2px;
+            margin-left: 10px;
+            font-size: 10px;
+            border: 1px solid rgb(0, 154, 255);
+            font-weight: 500;
+            color: black;
+            background-color: white; /*rgb(248,248,248); */
+        }
+
+        .snip {
+            font-size: 14px;
+            text-align: left;
+            line-height: 1.3;
+            height: 50px;
+            overflow: hidden;
+        }
+
+        .date {
+            color: gray;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        #results {
+            width: 45vw;
+            margin-top: 0px;
+            margin-left: 10%;
+        }
+
+        #num {
+            height: 50px;
+            width: 600px;
+            padding-left: 30px;
+            background-color: white;
+            font-size: 24px;
+            border: none;
+            box-shadow: none;
+            transition: box-shadow 200ms;
+            margin-left: 80px;
+            box-shadow: 0px 4px 5px 0.8px rgba(0, 0, 0, 0.10);
+        }
+
+            #num:active, #num:focus {
+                outline: none;
+                border: none;
+                box-shadow: 0px 1px 3px 0.1px rgba(0, 0, 0, 0.20);
+            }
+
+        #q {
+            position: relative;
+            top: 0;
+            left: 0;
+            padding-top: 30px;
+            margin-bottom: 25px;
+            width: 100vw;
+            height: 110px;
+            background-color: white;
+            z-index: 100;
+        }
+
+            #q.landing {
+                text-align: center;
+                top: 30vh;
+                background-color: white;
+            }
+
+        #go {
+            cursor: pointer;
+            position: relative;
+            height: 50px;
+            top: -4px;
+            width: 150px;
+            border: none;
+            margin-left: 10px;
+            background-color: white;
+            box-shadow: 0px 4px 5px 0.8px rgba(0, 0, 0, 0.10);
+            transition: box-shadow 200ms;
+        }
+
+            #go:hover {
+                box-shadow: 0px 1px 3px 0.1px rgba(0, 0, 0, 0.20);
+            }
+
+            #go:active, #go:focus {
+                outline: none;
+                animation-name: btnp;
+                animation-duration: 200ms;
+                animation-iteration-count: 1;
+            }
+
+        @keyframes btnp {
+            0% {
+                box-shadow: 0px 1px 3px 0.1px rgba(0, 0, 0, 0.20);
+            }
+
+            50% {
+                box-shadow: 0px 0px 1px 0.1px rgba(0, 0, 0, 0.3);
+            }
+
+            100% {
+                box-shadow: 0px 1px 3px 0.1px rgba(0, 0, 0, 0.20);
+            }
+        }
+
+        .imgs {
+            height: 175px;
+            width: auto;
+            cursor: pointer;
+        }
+
+        .imgz {
+            display: inline-block;
+            margin-left: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .imgsidebar {
+            position: relative;
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0px -3px 20px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .imgside {
+            width: 300px;
+            height: auto;
+            cursor: pointer;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+        }
+
+        .imgoptions {
+            padding: 20px;
+            width: 175px;
+            height: 125px;
+            border-radius: 5px;
+            background-color: rgba(245, 245, 245, 0.8);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-87.5px, -62.5px);
+        }
+
+        .imgoption {
+            padding: 10px;
+            height: 50px;
+            cursor: pointer;
+        }
+
+        #rel-img {
+            position: relative;
+            padding: 1px 20px;
+            width: 50%;
+            text-align: left;
+            font-size: 24px;
+            font-weight: 100;
+            margin-left: -4%;
+            height: 40px;
+            background-color: rgb(248, 248, 248);
+        }
+
+        #all-results {
+            display: inline-block;
+        }
+
+        #sidebar {
+            position: absolute;
+            min-width: 200px;
+            min-height: 200px;
+            top: 170px;
+            left: 55%;
+            border-radius: 10px;
+            z-index: 20;
+            border-radius: 5px;
+        }
+
+        #wikia {
+            background-color: rgb(248, 248, 248);
+            width: 300px;
+            padding: 20px;
+            box-shadow: 0px 5px 20px 1px rgba(0, 0, 0, 0.2);
+            z-index: 80;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+        #sidetitle {
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        #sidesnip {
+            font-weight: 300;
+            font-size: 14px;
+        }
+
+        #show-more-img {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 12px;
+            color: rgb(0, 154, 255);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .ss {
+            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
+            width: 600px;
+            margin-left: 80px;
+            margin-top: 0px;
+            border-radius: 5px;
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+            background-color: white;
+            box-shadow: 0px 7px 20px 1px rgba(0, 0, 0, 0.2);
+        }
+
+            .ss.landing {
+                margin-left: 50%;
+                transform: translateX(-339px);
+            }
+
+        .qs {
+            font-size: 24px;
+            height: 35px;
+            padding-left: 30px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 5px;
+            overflow: hidden;
+            text-wrap: none;
+            white-space: nowrap;
+        }
+
+            .qs:hover {
+                background-color: lightgray;
+            }
+
+        #page {
+            position: absolute;
+            height: 100vh;
+            width: 100vw;
+            overflow-y: scroll;
+            padding-bottom: 500px;
+        }
+
+        .preview {
+            width: 450px;
+            max-height: 500px;
+            overflow-y: scroll;
+            border-radius: 10px;
+            box-shadow: 0px 5px 20px 1px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            right: 0;
+            top: 0px;
+            padding: 0px;
+            z-index: 300;
+        }
+
+        .prev-cont {
+            background: linear-gradient(rgb(248, 248, 248), rgb(235,235,235));
+            padding: 20px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .prev-img {
+            max-height: 360px;
+            max-width: 360px;
+            align-self: center;
+        }
+
+        .result i {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            font-size: 12px;
+            color: rgb(235, 235, 235);
+            width: 15px;
+            height: 15px;
+            z-index: 101;
+            cursor: pointer;
+        }
+
+        #loading {
+            position: absolute;
+            width: 100vw;
+            top: 20%;
+            font-size: 10px;
+            animation-name: train;
+            animation-iteration-count: infinite;
+            animation-duration: 3s;
+            animation-timing-function: linear;
+        }
+
+        @keyframes train {
+            from {
+                left: 300px;
+            }
+
+            to {
+                left: -300px;
+            }
+        }
+
+        #loading.landing {
+            top: 50%;
+        }
+
+        .stat {
+            margin: 10px;
+        }
+        #nba-zone {
+            margin-left: 8%;
+            width: 46vw;
+        }
+        #nba-stats {
+            background-color: rgb(249, 249,249);
+            box-shadow: 0px 5px 10px 1px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        #nba-team {
+            font-size: 18px;
+            font-weight: 100;
+        }
+        .logo {
+            font-weight: 100;
+            font-size: 20px;
+            position: fixed;
+            top: 5px;
+            right: 30px;
+            z-index: 999;
+        }
+            .logo.landing {
+                font-size: 34px;
+                top: 20vh;
+                right: 0;
+                width: 100vw;
+                text-align: center;
+            }
+    </style>
+</head>
+<body>
+    <div id="page">
+        <div id="logo" class="logo landing">search_</div>
+        <div id="q" class="landing">
+            <input type="text" id="num" placeholder="Search" />
+            <button id="go">go</button>
+        </div>
+        <div id="all-results">
+            <div id="nba-zone"></div>
+            <div id="results"></div>
+            <center id="loading" class="landing"><img src="http://www.animatedimages.org/data/media/75/animated-train-image-0031.gif" /></center>
+        </div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-5666480866743556"
+             data-ad-slot="3555176220"
+             data-ad-format="auto"></ins>
+    </div>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <script>
+        $("body").ready(function () {
+            $("#loading").hide();
+            $("#nba-zone").hide();
+        });
+        var firstSearch = true;
+        function onDataRecieved(data) {
+            $("#nba-zone").append("<div id='nba-stats'><h4>" + data["Name"] + "</h4><p><span class='stat' id='nba-team'>" + data["Team"] + "</span><span class='stat'><b>Games Played</b>: " + data["GP"] + "</span><span class='stat'><b>Points Per Game</b>: " + data["PPG"] + "</span><span class='stat'><b>Three Point Makes</b>: " + data["THREEPTM"] + "</span><span class='stat'><b>Rebounds</b>: " + data["REB"] + "</span><span class='stat'><b>Assists</b>: " + data["AST"] + "</span></p></div>");
+        }
+        var imageCache = [];
+        $("#go").on("click", function () {
+            var input = $("#num").val();
+            while (input.charAt(0) == ' ') {
+                input = input.substring(1);
+            }
+            queryDB(input);
+        });
+        $("#num").on("keypress", function (e) {
+            if (e.keyCode == 13) {
+                var input = $("#num").val();
+                while (input.charAt(0) == ' ') {
+                    input = input.substring(1);
+                }
+                queryDB(input);
+            }
+        });
+        function queryDB(input) {
+            $("#nba-stats").remove();
+            $("#nba-zone").hide();
+            $("#loading").show();
+            var images = 0;
+            var wikiNotFilled = true;
+            while (imageCache.length > 0) {
+                var del = imageCache.pop();
+            }
+            $("#results").html("");
+            $("#imgcontainer").remove();
+            $("#sidebar").remove();
+            awsq(input);
+            $.ajax({
+                type: "POST",
+                url: "http://crawlerstorageacct.cloudapp.net/Admin.asmx/Query",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ query: input }),
+                dataType: "json",
+                success: function (msg) {
+                    $("#nba-zone").show();
+                    firstSearch = false;
+                    $("#loading").hide();
+                    $("#q").removeClass("landing");
+                    $("#logo").removeClass("landing");
+                    $(".ss").removeClass("landing");
+                    $("#loading").removeClass("landing");
+                    var titleslist = [];
+                    var titlei = -1;
+                    for (var i = 0; i < msg["d"].length; i++) {
+                        var segments = msg["d"][i].split("~");
+                        var cont = true;
+                        for (var j = 0; j < titleslist.length; j++) {
+                            if (titleslist[j] == segments[1]) {
+                                cont = false;
+                            }
+                        }
+                        var titleLower = segments[1].toLowerCase();
+                        var inputLower = input.toLowerCase();
+                        if (titleLower.includes("list of") && !input.includes("list of")) {
+                            cont = false;
+                        }
+                        if (cont) {
+                            titlei++;
+                            titleslist.push(segments[1]);
+                            var titleSegments = segments[1].split(" ");
+                            var key = titleSegments[0];
+                            if (titlei == 1 || msg["d"].length == 1) {
+                                $("#results").append("<div class='imgcontainer' id='imgcontainer'><p id='rel-img'>Related Images <button onclick='showMoreImg();' id='show-more-img'>Show More</button></p><p></p></div>");
+                            }
+
+                            var dateseg = segments[2].split(" ");
+                            var date = dateseg[0];
+                            var boldedSnipped = boldThatSnippet(input, cleanDescription(segments[3]))
+                            var tophit;
+                            var icon = "<i onmouseenter=\"linkHover('e', '" + key + "','" + segments[0] + "','result" + i + "');\" class='fa fa-eye' aria-hidden='true'></i>"
+                            if (segments[0].includes("wikipedia")) {
+                                date = "";
+                                icon = "";
+                            }
+                            if (titlei == 0) {
+                                tophit = "<div id='tophit'>Top Hit</div>";
+                            } else {
+                                tophit = "";
+                            }
+                            if (segments[0].includes("wikipedia") && wikiNotFilled) {
+                                wikiNotFilled = false;
+                                $("#results").append("<div id='sidebar'></div>");
+                                $("#sidebar").append("<div class='imgsidebar' id='img" + i + "'><img onclick=\"imgClick('" + segments[5] + "','" + segments[0] + "','img" + i + "');\" class='imgside' src='" + segments[5] + "' alt='' /></div>");
+                                $("#sidebar").append("<div id='wikia'><p id='sidetitle'>" + removeWikipedia(segments[1]) + "</p><p id='sidesnip'>" + cleanDescription(segments[3]) + "</p></div>");
+                                $("#sidebar").append("<div class='suggestions'><b>Related Wikipedia articles:</b> <ul><p><li><a href='https://en.wikipedia.org" + segments[6] + "' target='_blank'>" + getTitle(segments[6]) + "</a></li><li><a href='https://en.wikipedia.org" + segments[7] + "' target='_blank'>" + getTitle(segments[7]) + "</a></li><li><a href='https://en.wikipedia.org" + segments[8] + "' target='_blank'>" + getTitle(segments[8]) + "</a></li></p></ul></div>");
+                                /*<div class='related'><a href='https://en.wikipedia.org" + segments[9] + "'>" + getTitle(segments[9]) + "</a></div><div class='related'><a href='https://en.wikipedia.org" + segments[10] + "'>" + getTitle(segments[10]) + "</a></div>*/
+                            }
+                            var titleCheck = removeWikipedia(segments[1]).toLowerCase();
+                            if (titleCheck.includes("(")) {
+                                titleCheck = titleCheck.substring(0, titleCheck.indexOf("("));
+                            }
+                            if ((titleCheck === input.toLowerCase() + " ") && !wikiNotFilled) {
+                                $("#sidebar").remove();
+                                $("#results").append("<div id='sidebar'></div>");
+                                $("#sidebar").append("<div class='imgsidebar' id='img" + i + "'><img onclick=\"imgClick('" + segments[5] + "','" + segments[0] + "','img" + i + "');\" class='imgside' src='" + segments[5] + "' alt='' /></div>");
+                                $("#sidebar").append("<div id='wikia'><p id='sidetitle'>" + removeWikipedia(segments[1]) + "</p><p id='sidesnip'>" + cleanDescription(segments[3]) + "</p></div>");
+                                $("#sidebar").append("<div class='suggestions'><b>Related Wikipedia articles:</b> <ul><p><li><a href='https://en.wikipedia.org" + segments[6] + "' target='_blank'>" + getTitle(segments[6]) + "</a></li><li><a href='https://en.wikipedia.org" + segments[7] + "' target='_blank'>" + getTitle(segments[7]) + "</a></li><li><a href='https://en.wikipedia.org" + segments[8] + "' target='_blank'>" + getTitle(segments[8]) + "</a></li></p></ul></div>");
+                            }
+                            $("#results").append("<div class='result' id='result" + i + "'><a href='" + segments[0] + "' target='_blank'><span class='title'>" + segments[1] + tophit + "</span></a><p class='snip'><span class='date'>" + date + "</span>" + boldedSnipped + "</p>" + icon + "</div>");
+
+                            if (segments[5] != "none" && !segments[5].includes("data:image")) {
+                                if (images < 3) {
+                                    images++;
+                                    $("#imgcontainer").append("<div class='imgz' id='img" + i + "'><img onclick=\"imgClick('" + segments[5] + "','" + segments[0] + "','img" + i + "');\" class='imgs' src='" + segments[5] + "' alt='' /></div>");
+                                } else {
+                                    imageCache[imageCache.length] = (segments[5]);
+                                    imageCache[imageCache.length] = (segments[0]);
+                                }
+                            }
+                        }
+                    }
+                },
+                error: function (msg) {
+                    console.log(eval(msg));
+                }
+            });
+        }
+        function boldThatSnippet(input, snip) {
+            var inputWords = input.split(" ");
+            var snipWords = snip.split(" ");
+            var boldedText = "";
+            for (var i = 0; i < snipWords.length; i++) {
+                var word = snipWords[i];
+                for (var j = 0; j < inputWords.length; j++) {
+                    if (snipWords[i].toLowerCase().includes(inputWords[j].toLowerCase())) {
+                        var matchIndex = word.toLowerCase().indexOf(inputWords[j].toLowerCase());
+                        var beginning = word.substring(0, matchIndex);
+                        var middle = "<b>" + word.substring(matchIndex, inputWords[j].length) + "</b>";
+                        var end = word.substring(matchIndex + inputWords[j].length);
+                        var word = beginning + middle + end;
+                        break;
+                    }
+                }
+                boldedText = boldedText + word + " ";
+                if (boldedText.length > 400) {
+                    boldedText = boldedText + "..."
+                    break;
+                }
+            }
+            return boldedText;
+        }
+        function imgClick(imgsrc, pagesrc, imgid) {
+            $(".imgoptions").remove();
+            $("#" + imgid).append("<div class='imgoptions'><div class='imgoption'><a href='" + imgsrc + "' target='_blank'><b>View Full Size</b></a></div><div class='imgoption'><a href='" + pagesrc + "' target='_blank'><b>Image Source</b></a></div></div>");
+        }
+        function showMoreImg() {
+            $("#imgcontainer").addClass("wrap");
+            for (var i = 0; i < imageCache.length - 1; i++) {
+                $("#imgcontainer").append("<div class='imgz' id='img" + (i + 3) + "'><img onclick=\"imgClick('" + imageCache[i] + "','" + imageCache[i + 1] + "','img" + (i + 3) + "');\" class='imgs' src='" + imageCache[i] + "' alt='' /></div>");
+            }
+            setTimeout(function () {
+                $("#show-more-img").remove();
+            }, 10);
+        }
+        function removeWikipedia(title) {
+            var segmento = title.split("-");
+            if (segmento.length > 2) {
+                var newTitle = "";
+                for (var i = 0; i < segmento.length - 1; i++) {
+                    newTitle = newTitle + segmento[i];
+                }
+                return newTitle;
+            } else {
+                return segmento[0];
+            }
+        }
+        var lastPreview;
+        function linkHover(e, key, url, id) {
+            $("#" + lastPreview).remove();
+            lastPreview = "preview" + id;
+            key = key.toLowerCase();
+            $.ajax({
+                type: "POST",
+                url: "http://crawlerstorageacct.cloudapp.net/Admin.asmx/Preview",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ key: key, url: url }),
+                dataType: "json",
+                success: function (msg) {
+                    $("#" + id).append("<div class='preview' id='preview" + id + "'><div class='prev-cont'><h3 class='prev-title'>" + removeWikipedia(msg["d"][0]) + "</h3><p><img class='prev-img' src='" + msg["d"][2] + "'/></p><p class='prev-body'>" + cleanDescription(msg["d"][3]) + "</p></div></div>")
+
+                    $("#preview" + id).on("mouseleave", function () {
+                        $("#preview" + id).remove();
+                    });
+                    $("#page").on("scroll", function () {
+                        $("#preview" + id).remove();
+                    })
+                }
+            });
+        }
+
+
+        function cleanDescription(text) {
+            var segs = text.split(" ");
+            var newText = "";
+            for (var i = 0; i < segs.length; i++) {
+                var newWord = segs[i];
+                if (newWord.includes("[")) {
+                    newWord = newWord.substring(0, newWord.indexOf("["));
+                }
+                newText = newText + newWord + " ";
+            }
+            return newText;
+        }
+        function getTitle(url) {
+            var seg = url.split('/');
+            var titleRaw = seg[seg.length - 1];
+            while (titleRaw.includes("_")) {
+                titleRaw = titleRaw.replace("_", " ");
+            }
+            if (titleRaw.includes("%")) {
+                titleRaw = decodeURI(titleRaw);
+            }
+            if (titleRaw.includes("#")) {
+                var words = titleRaw.split(" ");
+                var newTitle = "";
+                for (var i = 0; i < words.length; i++) {
+                    var w = words[i];
+                    if (w.includes("#")) {
+                        w = w.substring(0, w.indexOf("#"));
+                    }
+                    newTitle = newTitle + w + " ";
+                }
+                return newTitle;
+            }
+            return titleRaw;
+        }
+
+        function awsq(input) {
+            $.ajax({
+                crossDomain: true,
+                contentType: "application/json; charset=utf-8",
+                url: "http://ec2-18-221-217-112.us-east-2.compute.amazonaws.com/",
+                data: { search: input },
+                dataType: "jsonp",
+                success: onDataRecieved
+            });
+        }
+    </script>
+    <script>
+        var resultArray;
+        $("#num").on("keyup", function (event) {
+            if (event.which != 16) {
+                if (event.keyCode != 13) {
+                    var entry = $("#num").val();
+                    qSgt(entry);
+
+                } else {
+                    $(".ss").remove();
+                }
+            }
+
+        });
+        function qSgt(entry) {
+            var cls = "";
+            if (firstSearch) {
+                cls = "landing";
+            }
+            while (entry.charAt(0) == ' ') {
+                entry = entry.substring(1);
+            }
+            if (entry == "") {
+                $(".ss").remove();
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "http://crawlerstorageacct.cloudapp.net/Admin.asmx/SearchTrie?q=" + entry,
+                    data: JSON.stringify({ q: entry }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (msg) {
+                        resultArray = msg["d"];
+                        $(".ss").remove();
+                        $("#q").append("<div class='ss " + cls + "'></div>");
+                        for (var i in resultArray) {
+                            if (resultArray[i] != '') {
+                                $(".ss").append("<div onclick=\"sgtClick('" + resultArray[i] + "');\" class='qs' id='qs" + i + "'><b>" + resultArray[i].substring(0, entry.length) + "</b>" + resultArray[i].substring(entry.length) + "</div>");
+                            }
+                        }
+                    },
+                    error: function (msg) {
+                        console.log(eval(msg));
+                    }
+                });
+            }
+        }
+        $("#page").on("click", function () {
+            setTimeout(function () {
+                $(".ss").remove();
+            }, 20);
+        });
+        $("#page").on("scroll", function () {
+            $(".ss").remove();
+        })
+        $("#num").on("click", function () {
+            setTimeout(function () {
+                qSgt($("#num").val());
+            }, 50);
+        }
+        );
+
+        function sgtClick(search) {
+            queryDB(search);
+            $(".ss").remove();
+            $("#num").val(search);
+        }
+            /*
+            $("#add").on("click", function () {
+                var entry = $("#search").val();
+                while (entry.charAt(0) == ' ') {
+                    entry = entry.substring(1);
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "http://eastusinclassasmx.cloudapp.net/TrieInterface.asmx/AddSuggestion?q=" + entry,
+                    data: JSON.stringify({ q: entry }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (msg) {
+                        console.log(eval(msg));
+                        var text = msg["d"];
+                        $(".banner").remove();
+                        $("body").append("<div class='banner'></div>");
+                        if (text.charAt(0) == '!') {
+                            $(".banner").append("<div id='bannerRed'>" + text.substring(1) + "</div>");
+                        } else {
+                            $(".banner").append("<div id='bannerBlue'>" + text + "</div>");
+                        }
+
+                    },
+                    error: function (msg) {
+                        console.log(eval(msg));
+                    }
+                });
+            });*/
+
+    </script>
+</body>
+</html>
