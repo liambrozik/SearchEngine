@@ -362,25 +362,26 @@ namespace WebRole1
             }
         }
 
+
+
         private int calculateScore(LinkRow res, List<string> words)
         {
             int total = 0;
-
+            bool wikiBonus = true;
             foreach (string word in words)
             {
-                if (res.Title.Contains(word))
-                {
-                    total = total + 4;
-                }
-                else
+                if (res.Title.ToLower().Contains(word) && !res.URL.Contains("wikipedia"))
                 {
                     total = total + 1;
                 }
+                if (!res.Title.ToLower().Contains(word) && res.URL.Contains("wikipedia"))
+                {
+                    wikiBonus = false;
+                }
             }
-            if (res.URL.Contains("wikipedia") && WikiCount <= 4)
+            if (res.URL.Contains("wikipedia") && wikiBonus)
             {
-                WikiCount++;
-                total = total + 2;
+                total = total + 4;
             }
             return total;
         }
@@ -577,6 +578,7 @@ namespace WebRole1
             return results;
         }
 
+        /*
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string AddSuggestion(string q)
@@ -594,7 +596,7 @@ namespace WebRole1
                 // return q + " was added to the suggestions!";
                 return q + " was not found!";
             }
-        }
+        }*/
 
         private static float getAvailableRAM(System.Diagnostics.PerformanceCounter RAM)
         {
